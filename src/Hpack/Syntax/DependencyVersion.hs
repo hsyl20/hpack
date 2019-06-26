@@ -32,9 +32,9 @@ import qualified Data.HashMap.Strict as HashMap
 import           Text.PrettyPrint (renderStyle, Style(..), Mode(..))
 
 import           Distribution.Version (VersionRangeF(..))
-import qualified Distribution.Text as D
 import qualified Distribution.Version as D
-import qualified Distribution.Parsec.Class as D
+import qualified Distribution.Parsec as D
+import qualified Distribution.Pretty as D
 
 import           Data.Aeson.Config.FromValue
 
@@ -147,7 +147,7 @@ cabalParse subject s = case D.eitherParsec s of
 versionConstraintFromCabal :: D.VersionRange -> VersionConstraint
 versionConstraintFromCabal range
   | D.isAnyVersion range = AnyVersion
-  | otherwise = VersionRange . renderStyle style . D.disp $ toPreCabal2VersionRange range
+  | otherwise = VersionRange . renderStyle style . D.pretty $ toPreCabal2VersionRange range
   where
     style = Style OneLineMode 0 0
 
